@@ -10,7 +10,7 @@ app = Flask(__name__)
 def geocode(address):
     maps_prefix = "https://api.mapbox.com/geocoding/v5/mapbox.places/"
     key = ".json?access_token=" + str(os.getenv("MAPBOX_KEY"))
-    address = address.replace(' ', '+')
+    address = address.replace(" ", "+")
     response = requests.get(maps_prefix + address + key)
     geocode_json = json.loads(response.text)
     latitude = geocode_json["features"][0]["center"][1]
@@ -31,9 +31,11 @@ def call_osrm(address1, address2):
 
 @app.route('/<string:address>')
 def get_time(address):
-    address_arr = address.split(';')
-    return call_osrm(address_arr[0], address_arr[1])
-
+    if len(address.split(';')) == 2:
+        address1, address2 = address.split(';')
+        return call_osrm(address1, address2)
+    else:
+        return "Invalid input"
 
 if __name__ == '__main__':
     app.run()
