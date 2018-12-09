@@ -33,3 +33,7 @@ def call_osrm(address1, address2):
 def get_time(address):
     address_arr = address.split(';')
     return call_osrm(address_arr[0], address_arr[1])
+
+
+if __name__ == '__main__':
+    app.run()
