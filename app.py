@@ -27,13 +27,13 @@ def call_osrm(address1, address2):
     osrm_json = json.loads(osrm.text)
     time = osrm_json["routes"][0]["duration"] / 60
     
-    return str(time)
+    return time
 
 @app.route('/<string:address>')
 def get_time(address):
     if len(address.split(';')) == 2:
         address1, address2 = address.split(';')
-        return call_osrm(address1, address2)
+        return json.dumps(call_osrm(address1, address2))
     else:
         return "Invalid input"
 
